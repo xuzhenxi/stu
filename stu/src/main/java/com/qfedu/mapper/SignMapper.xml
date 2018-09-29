@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.dao.ISignDao">
+  <resultMap id="signMap" type="Sign">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="todaydate" jdbcType="TIMESTAMP" property="todaydate" />
+    <result column="signdate" jdbcType="TIMESTAMP" property="signdate" />
+    <result column="lateflag" jdbcType="INTEGER" property="lateflag" />
+    <result column="amflag" jdbcType="INTEGER" property="amflag" />
+    <result column="uno" jdbcType="INTEGER" property="uno" />
+  </resultMap>
+  
+  <resultMap id="signMap1" type="Sign">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="todaydate" jdbcType="TIMESTAMP" property="todaydate" />
+    <result column="signdate" jdbcType="TIMESTAMP" property="signdate" />
+    <result column="lateflag" jdbcType="INTEGER" property="lateflag" />
+    <result column="amflag" jdbcType="INTEGER" property="amflag" />
+    <result column="uno" jdbcType="INTEGER" property="uno" />
+    	
+    	<association property="user"
+    		javaType="com.qfedu.entity.User"
+    		column="uno"
+    		select="com.qfedu.dao.IUserDao.findByNo"
+    	
+    	>
+    	</association>
+    
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, todaydate, signdate, lateflag, amflag
+  </sql>
+  
+     <!-- 获得数量 -->
+  <select id="count" resultType="int">
+  	select count(1) from t_sign 
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="findByIndexAndSize" parameterType="map" resultMap="signMap1">
+  	select * from t_sign where 1=1
+  	
+  	limit #{index}, #{size}
+  </select>
+  
+  <insert id="add" parameterType="Sign">
+    insert into t_sign (todaydate, signdate, 
+      lateflag, amflag, uno)
+    values (#{todaydate,jdbcType=TIMESTAMP}, #{signdate,jdbcType=TIMESTAMP}, 
+      #{lateflag,jdbcType=INTEGER}, #{amflag,jdbcType=INTEGER}, #{uno})
+  </insert>
+  
+     <!-- 通过账号和上午或下午查询签到 -->
+  <select id="findByNoAndAmflag" parameterType="map" resultType="Sign">
+  	select * from t_sign where uno=#{uno} and amflag=#{amflag}
+  </select>
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>滴答办公系统-学员新增</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="media/layui/css/layui.css" media="all">
+<script type="text/javascript" src="media/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="layui-container" style="margin-top: 5px">
+			
+			<div class="layui-form-item">
+				<a class="layui-btn" href="javascript:addSign()">签到</a>
+			</div>
+			
+	</div>
+
+
+	<script src="media/layui/layui.js"></script>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+	var form;
+		layui
+				.use(
+						[ 'form','upload', 'layedit', 'laydate' ],
+						function() {
+							form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+							var upload = layui.upload;
+							   
+							 
+							//日期
+							laydate.render({
+								elem : '#date1'
+							});
+							laydate.render({
+								elem : '#date2'
+							});
+							
+
+							//自定义验证规则
+							form.verify({
+								title : function(value) {
+									if (value.length < 5) {
+										return '标题至少得5个字符啊';
+									}
+								},
+								pass : [ /(.+){6,12}$/, '密码必须6到12位' ],
+								content : function(value) {
+									layedit.sync(editIndex);
+								}
+							});
+					
+							
+					
+					
+					
+
+					 
+					
+					
+					
+					
+		});
+		
+		
+			
+	</script>
+	
+	<script type="text/javascript">
+	function addSign() {
+		 $.get("addsign",null,function(data){
+				if (data.code == 1) {
+					layer.msg(data.msg, {icon: 6});
+				} else {
+					layer.msg(data.msg, {icon: 5});
+				}
+
+				
+		})
+		
+	}
+	</script>
+</body>
+</html>

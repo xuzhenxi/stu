@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>滴答办公系统-学员列表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="media/layui/css/layui.css" media="all">
+<script src="media/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="layui-container">
+		<table id="tbdata" lay-filter="tbop"></table>
+		<script type="text/html" id="barop">
+			<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="detail">修改</a>
+    		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+    		
+		</script>
+	</div>
+	<script src="media/layui/layui.js"></script>
+	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+	layui.use('table', function(){
+		  var table = layui.table;
+		  
+		  //第一个实例
+		  table.render({
+		    elem: '#tbdata'
+		    ,url: 'signpage.do' //数据接口
+		    ,page: true //开启分页
+		    ,cols: [[ //表头
+		      {field: 'id', title: '编号', sort: true, fixed: 'left'}
+		      ,{field: 'todaydate', title: '当天日期'}
+		      ,{field: 'signdate', title: '签到时间'}
+		      ,{field: 'lateflag', title: '签到状态', templet: function (obj) {
+		    	  var r;
+                  switch (obj.lateflag) {
+                      //有效
+                      case 1:
+                          r = "<span style='color: #1E9FFF'>正常签到</span>";
+                          break;
+                      case 2:
+                          r = "<span style='color: red'>迟到</span>";
+                          break;
+                      case 3:
+                          r = "<span style='color: red'>早退</span>";
+                          break;
+                      case 4:
+                          r = "<span style='color: #1E9FFF'>正常下班</span>";
+                          break;
+                      case 5:
+                          r = "<span style='color: #1E9FFF'>提前上班</span>";
+                          break;
+                  }
+                  return r;
+		    	  
+              }}
+		      ,{field: 'amflag', title: '签到时间段', templet: function (obj) {
+		    	  var r;
+                  switch (obj.amflag) {
+                      //有效
+                      case 1:
+                          r = "<span style='color: #1E9FFF'>上午</span>";
+                          break;
+                      case 2:
+                          r = "<span style='color: #1E9FFF'>下午</span>";
+                          break;
+                      
+                  }
+                  return r;
+		    	  
+              }}
+		      ,{field: 'uname', title: '签到人',templet: function (obj) {
+		    	  if(obj.user == null) {
+		    		  return "";
+		    	  } else {
+	                  return obj.user.name;
+		    	  }
+		    	}}
+		      
+		    ]]
+		  });
+		  //监听工具条
+		  table.on('tool(tbop)', function(obj){
+		        var data = obj.data;
+		        if(obj.event === 'del'){
+		            layer.confirm('是否确认删除学员?', function(index){
+		                $.ajax({
+		                    url: "studentdelete.do",
+		                    type: "POST",
+		                    data:"no="+data.no,
+		                    success: function(data){
+		                        if(data.code==1){
+		                            obj.del();//删除表格中的对应行数据
+		                            layer.close(index);
+		                            layer.msg("删除成功", {icon: 6});
+		                        }else{
+		                            layer.msg(data.msg, {icon: 5});
+		                        }
+		                    }
+		                });
+		            });
+		        } else if(obj.event === 'detail'){//编辑 修改
+		          // location.href="staffupdate.html?d="+ encodeURI(JSON.stringify(data));
+		        	 layer.open({
+		                 area: ['500px', '500px'],
+		                 title: '员工信息编辑',
+		                 type: 2,
+		                 content:  'studentupdate.html?d='+ encodeURI(JSON.stringify(data)), //这里content是一个普通的String
+		                
+		             });
+		        }
+		});
+	});
+
+</script>
+</body>
+</html>

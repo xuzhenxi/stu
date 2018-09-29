@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.dao.IUserDao">
+  <resultMap id="usertMap" type="User">
+    <id column="no" jdbcType="VARCHAR" property="no" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    no, password, name, sex, age, phone, email
+  </sql>
+  
+  <!-- 通过账号查找用户 -->
+  <select id="findByNo" parameterType="String" resultType="User">
+  	select * from t_user where no=#{no}
+  </select>
+  
+  <!-- 添加新用户 -->
+  <insert id="add" parameterType="User">
+    insert into t_user (no, password, name, 
+      sex, age, phone, email
+      )
+    values (#{no}, #{password}, #{name}, 
+      #{sex}, #{age}, #{phone}, #{email}
+      )
+  </insert>
+  
+    <!-- 查询最新添加的学员 -->
+  <select id="findLastStu" resultType="User">
+   select * from t_user order by no desc limit 1
+  </select>
+  
+  <!-- 修改 -->
+  <update id="update" parameterType="User">
+    update t_user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where no = #{no,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>
