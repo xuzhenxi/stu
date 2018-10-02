@@ -33,7 +33,8 @@
 		    ,cols: [[ //表头
 		      {field: 'id', title: '编号', sort: true, fixed: 'left'}
 		      ,{field: 'todaydate', title: '当天日期'}
-		      ,{field: 'signdate', title: '签到时间'}
+		      ,{field: 'signdate', title: '上班时间'}
+		      ,{field: 'enddate', title: '下班时间'}
 		      ,{field: 'lateflag', title: '签到状态', templet: function (obj) {
 		    	  var r;
                   switch (obj.lateflag) {
@@ -57,15 +58,18 @@
                   return r;
 		    	  
               }}
-		      ,{field: 'amflag', title: '签到时间段', templet: function (obj) {
+		      ,{field: 'amflag', title: '签到次数', templet: function (obj) {
 		    	  var r;
                   switch (obj.amflag) {
                       //有效
                       case 1:
-                          r = "<span style='color: #1E9FFF'>上午</span>";
+                          r = "<span style='color: #1E9FFF'>一次</span>";
                           break;
                       case 2:
-                          r = "<span style='color: #1E9FFF'>下午</span>";
+                          r = "<span style='color: #1E9FFF'>两次</span>";
+                          break;
+                      default:
+                          r = "<span style='color: #1E9FFF'>未签到</span>";
                           break;
                       
                   }

@@ -70,4 +70,12 @@ public class User {
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
+
+	@Override
+	public String toString() {
+		return "User [no=" + no + ", password=" + password + ", name=" + name + ", sex=" + sex + ", age=" + age
+				+ ", phone=" + phone + ", email=" + email + "]";
+	}
+    
+    
 }

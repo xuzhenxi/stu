@@ -21,4 +21,7 @@ public interface ISignService {
     
     //通过账号和上午或下午查询签到
     public Sign findByNoAndAmflag(Map<String, Object> map);
+    
+  //修改签到信息
+    public void update(Sign sign);
 }

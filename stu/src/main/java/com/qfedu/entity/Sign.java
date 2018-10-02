@@ -15,11 +15,21 @@ public class Sign {
     private Integer lateflag;
     private Integer amflag;
     private String uno;
+    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    private Date enddate;
     
     private User user;
-    
 
-    public User getUser() {
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+    public Date getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
+
+	public User getUser() {
 		return user;
 	}
 

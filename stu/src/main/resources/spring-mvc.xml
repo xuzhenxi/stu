@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
        
        <!-- springmvc 扫描控制层的包，比如@Controller这些注解
        		扫描控制层的注解，方案1 指定具体扫描的包，方案2 指定扫描父包，必须use-default-filters="false"，

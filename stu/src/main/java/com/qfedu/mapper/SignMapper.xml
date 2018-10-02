@@ -8,6 +8,7 @@
     <result column="lateflag" jdbcType="INTEGER" property="lateflag" />
     <result column="amflag" jdbcType="INTEGER" property="amflag" />
     <result column="uno" jdbcType="INTEGER" property="uno" />
+    <result column="enddate" jdbcType="INTEGER" property="enddate" />
   </resultMap>
   
   <resultMap id="signMap1" type="Sign">
@@ -17,6 +18,7 @@
     <result column="lateflag" jdbcType="INTEGER" property="lateflag" />
     <result column="amflag" jdbcType="INTEGER" property="amflag" />
     <result column="uno" jdbcType="INTEGER" property="uno" />
+    <result column="enddate" jdbcType="INTEGER" property="enddate" />
     	
     	<association property="user"
     		javaType="com.qfedu.entity.User"
@@ -29,7 +31,7 @@
     
   </resultMap>
   <sql id="Base_Column_List">
-    id, todaydate, signdate, lateflag, amflag
+    id, todaydate, signdate, lateflag, amflag, enddate
   </sql>
   
      <!-- 获得数量 -->
@@ -46,13 +48,40 @@
   
   <insert id="add" parameterType="Sign">
     insert into t_sign (todaydate, signdate, 
-      lateflag, amflag, uno)
+      lateflag, amflag, uno, enddate)
     values (#{todaydate,jdbcType=TIMESTAMP}, #{signdate,jdbcType=TIMESTAMP}, 
-      #{lateflag,jdbcType=INTEGER}, #{amflag,jdbcType=INTEGER}, #{uno})
+      #{lateflag,jdbcType=INTEGER}, #{amflag,jdbcType=INTEGER}, #{uno}, #{enddate})
   </insert>
   
      <!-- 通过账号和上午或下午查询签到 -->
-  <select id="findByNoAndAmflag" parameterType="map" resultType="Sign">
-  	select * from t_sign where uno=#{uno} and amflag=#{amflag}
+  <select id="findByNoAndTodaydate" parameterType="map" resultType="Sign">
+  	select * from t_sign where uno=#{uno} and todaydate=#{todaydate}
   </select>
+  
+  <!-- 修改打卡信息 -->
+  <update id="update" parameterType="Sign" >
+  	update t_sign 
+  	<set>
+  		<if test="todaydate != null">
+  			todaydate=#{todaydate},
+  		</if>
+  		<if test="signdate != null">
+  			signdate=#{signdate},
+  		</if>
+  		<if test="lateflag != null">
+  			lateflag=#{lateflag},
+  		</if>
+  		<if test="amflag != null">
+  			amflag=#{amflag},
+  		</if>
+  		<if test="uno != null">
+  			uno=#{uno},
+  		</if>
+  		<if test="enddate != null">
+  			enddate=#{enddate},
+  		</if>
+  	</set>
+  	where id=#{id}
+  
+  </update>
 </mapper>

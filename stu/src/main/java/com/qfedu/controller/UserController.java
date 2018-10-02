@@ -27,7 +27,7 @@ public class UserController {
 	//登录
 	@RequestMapping("/login")
 	@ResponseBody
-	public JsonBean login(String no, String password, HttpSession session, HttpServletRequest request){
+	public JsonBean login(String no, String password){
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(no, MD5Utils.getMd5(password, 1));
 		
@@ -35,7 +35,6 @@ public class UserController {
 
 		try {
 			subject.login(token);
-			session.setAttribute("no", no);
 			
 			return JsonUtil.JsonBeanS(1, "登录成功");
 		} catch (AuthenticationException e) {

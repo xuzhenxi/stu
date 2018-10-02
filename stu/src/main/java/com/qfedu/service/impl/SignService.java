@@ -64,12 +64,26 @@ public class SignService implements ISignService {
 		Sign s = null; 
 		
 		try {
-			s = signDao.findByNoAndAmflag(map);
+			s = signDao.findByNoAndTodaydate(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return s;
 	}
+
+	//修改签到
+	@Override
+	public void update(Sign sign) {
+		
+		try {
+			signDao.update(sign);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	
 
 }
